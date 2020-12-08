@@ -5,189 +5,546 @@
         <!-- Required meta tags -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-
-        <!-- Bootstrap CSS -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-              integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-              crossorigin="anonymous">
-
-        <!-- JS -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-                integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-                crossorigin="anonymous"></script>
+        
+        <!-- Bulma -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+        <script defer src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script>
 
         <!-- 구글폰트 -->
         <link href="https://fonts.googleapis.com/css?family=Stylish&display=swap" rel="stylesheet">
 
-        <title>SwJungle 이승민 | 나홀로 메모장</title>
+        <!-- Jquery -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+        <!-- CSS -->
+        <!-- <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet"> -->
+
+        <!-- Javascript -->
+        <!-- <script defer src="{{ url_for('static', filename='script.js') }}" > </script> -->
+
+        <!-- OG tag -->
+        <meta property="og:title" content="SW사관학교 정글 우리는?" />
+        <meta property="og:url" content="" />
+        <meta property="og:image" content="/static/jungler.jpg" />
+        <meta property="og:description" content="소개문구" /> 
+
+        <!-- 타이틀 -->
+        <title>SW사관학교 정글 우리는?</title>
 
         <!-- style -->
-        <style type="text/css">
-            * {
-                font-family: "Stylish", sans-serif;
+        <style>
+            .hide {
+              /* display: none; */
+                visibility: hidden;
+                height: 0px !important;
+                padding: 0px !important;
+                margin: 0px !important;
             }
 
-            .wrap {
-                width: 1200px;
-                margin: auto;
+            .enrollment {
+                display: block;
+                margin-left: auto !important;
+                margin-right: auto !important;
+                margin-top: 20px;
+                padding: 1rem;
             }
 
-            .comment {
-                color: blue;
-                font-weight: bold;
+            .cards-deck {
+                display: flex;
+                align-items: center;
+                flex-direction: column;
+
+
+            }
+            .card {
+                margin: 30px;
+                width: 70vw;
             }
 
-            #post-box {
-                width: 500px;
-                margin: 20px auto;
-                padding: 50px;
-                border: black solid;
-                border-radius: 5px;
+            .card-tag {
+              margin-right: 15px;
+            }
+
+            input {
+              margin-top: 5px;
+            }
+            
+            button {
+              margin-bottom: 5px;
             }
         </style>
-                <script>
-                    $(document).ready(function () {
-                        $("#cards-box").html("");
-                        showArticles();
-                    });
-
-
-                    function postArticle() {
-                        let title = $("#post-title").val();
-                        let comment = $("#post-comment").val();
-
-
-                        $.ajax({
-                            type: "POST",
-                            url: "/memo",
-                            data: {title_give: title, comment_give: comment},
-                            success: function (response) {
-                                if (response["result"] == "success") {
-                                    alert("저장 완료!");
-                                    window.location.reload();
-                                } else {
-                                    alert("서버 오류!")
-                                }
-                            }
-                        })
-                    }
-
-                    function showArticles() {
-
-                        $.ajax({
-                            type: "GET",
-                            url: "/memo",
-                            data: {},
-                            success: function (response) {
-                                let articles = response["articles"];
-                                console.log(articles);
-                                for (let i = 0; i < articles.length; i++) {
-                                    makeCard(articles[i]["title"], articles[i]["comment"]);
-                                }
-                            }
-                        })
-                    }
-
-                    function updateArticle(target) {
-                        let oldTitle = $("#old-title").val();
-                        let title = $("#modify-title").val();
-                        let comment = $("#modify-comment").val();
-                        console.log(oldTitle, title, comment)
-                        $.ajax({
-                            type: "POST",
-                            url: "/memo/update",
-                            data: {oldTitle_give: oldTitle, title_give: title, comment_give: comment},
-                            success: function (response) {
-                                if (response["result"] == "success") {
-                                    alert("수정 성공!");
-                                    window.location.reload();
-                                } else {
-                                    alert("서버 오류!")
-                                }
-                            }
-                        })
-
-                    }
-
-                    function deleteArticle(target) {
-                        let title = target.parentElement.querySelector('.title_sm').textContent;
-                        console.log(title)
-                        $.ajax({
-                            type: "POST",
-                            url: "/memo/delete",
-                            data: {title_give: title},
-                            success: function (response) {
-                                if (response["result"] == "success") {
-                                    alert("삭제 성공!");
-                                    window.location.reload();
-                                } else {
-                                    alert("서버 오류!")
-                                }
-                            }
-                        })
-
-                    }
-
-
-                    function makeCard(title,comment) {
-                        let tempHtml = `<div class="card">
-                            <div class="card-body">
-                                <h5 class="title_sm">${title}</h5>
-                                <p class="card-text">${comment}</p>
-                                <button type="button" onclick="modifyArticle(this)" class="btn btn-secondary modify" style="padding: 0px 5px;">수정</button>
-                                <button type="button" onclick="deleteArticle(this)" class="btn btn-dark" style="padding: 0px 5px;">삭제</button>
-                            </div>
-                        </div>`;
-                        $("#cards-box").append(tempHtml);
-                    }
-
-                    function modifyArticle(target) {
-                        let oldTitle = target.parentNode.querySelector('h5').textContent
-                        let oldArticle = target.parentNode.querySelector('p').textContent
-                        target.parentNode.parentNode.innerHTML = `
-                             <div class="card" style="padding: 20px 20px 0px 20px; border: none;">
-                                <div class="form-group">
-                                    <input id="old-title" value="${oldTitle}" style="display: none"></input>
-                                    <input id="modify-title" class="form-control" style="margin-bottom: 10px" value="${oldTitle}">
-                                </sapn>
-                                <div class="form-group">
-                                    <textarea id="modify-comment" class="form-control" rows="2" >${oldArticle}</textarea>
-                                </div>
-                                <button type="button" onclick="updateArticle(this)" class="btn btn-primary" style="padding: 0px 5px;">저장</button>
-                            </div>
-                            `
-                    }
-                </script>
+        
     </head>
     <body>
-        <div class="wrap">
-            <div class="jumbotron">
-                <h1>나홀로메모장 <span class="badge badge-secondary">ver2.0</span></h1>
+        <script defer>
 
-                <div class="create-memo_sm" style="width: 40%;">
-                    <div class="form-group">
-                        <input id="post-title" class="form-control" placeholder="메모 제목을 입력해주세요">
+        // 
+          function postArticle() {
+            let title = $("#post-title").val();
+            let comment = $("#post-comment").val();
+            $.ajax({
+                type: "POST",
+                url: "/memo",
+                data: {title_give: title, comment_give: comment},
+                success: function (response) {
+                    if (response["result"] == "success") {
+                        alert("저장 완료!");
+                        window.location.reload();
+                    } else {
+                        alert("서버 오류!")
+                    }
+                }
+            })
+          }
+
+          function showArticles() {
+              $.ajax({
+                  type: "GET",
+                  url: "/memo",
+                  data: {},
+                  success: function (response) {
+                      let articles = response["articles"];
+                      console.log(articles);
+                      for (let i = 0; i < articles.length; i++) {
+                          makeCard(articles[i]["title"], articles[i]["comment"]);
+                      }
+                  }
+              })
+          }     
+
+          // DOM 조작
+            function openClose() {
+              let enrollment = document.querySelector('.enrollment');
+              enrollment.classList.toggle('hide')
+            }
+
+            function selectFilter(select) {
+              let filter = document.querySelector(`#tag-${select}`)
+              let parentName = filter.parentNode.classList[0]
+              filter.classList.toggle("is-outlined") // 선택된 디자인 상태를 나타내기 위해
+              filter.classList.toggle(`selected-${parentName}`) // 
+            }
+
+
+            // Ajax 요청
+
+            // 필터걸기 search
+            function search() {
+              // 생일 Array
+              let birthdayAll = document.querySelectorAll(".selected-birthday");
+              let birthday_m_array = []
+              for(let i=0; i<birthdayAll.length; i++) {
+                birthday_m_array[i] = birthdayAll[i].textContent.slice(1);
+              }
+              console.log(birthday_m_array)
+
+              let bloodAll = document.querySelectorAll(".selected-blood")
+              let blood_array = []
+              for(let i=0; i<bloodAll.length; i++) {
+                blood_array[i] = bloodAll[i].textContent.slice(1);
+              }
+              console.log(blood_array)
+
+
+              let hometownAll = document.querySelectorAll(".selected-hometown")
+              let hometown_array = []
+              for(let i=0; i<hometownAll.length; i++) {
+                hometown_array[i] = hometownAll[i].textContent.slice(1);
+              }
+              console.log(hometown_array)
+
+              let MBTIAll = document.querySelectorAll(".selected-MBTI")
+              let MBTI_array = []
+              for(let i=0; i<MBTIAll.length; i++) {
+                MBTI_array[i] = MBTIAll[i].textContent.slice(1);
+              }
+              console.log(MBTI_array)
+
+              let petAll = document.querySelectorAll(".selected-pet")
+              let pet_array = []
+              for(let i=0; i<petAll.length; i++) {
+                pet_array[i] = petAll[i].textContent.slice(1);
+              }
+              console.log(pet_array)
+
+
+              $.ajax({
+                type: "POST",
+                url: "/main/search",
+                data: {birthday_m_array: birthday_m_array, blood_array: blood_array, hometown_array:hometown_array, MBTI_array:MBTI_array, pet_array:pet_array},
+                success: function (response) {
+                    if (response["result"] == "success") {
+                        alert("저장 완료!");
+                        window.location.reload();
+                    } else {
+                        alert("서버 오류!")
+                    }
+                }
+              })
+                // birthday_m_array
+                // blood_array
+                // hometown_array
+                // MBTI_array
+                // pet_array
+            }
+            
+            // 등록하기
+            function enroll() {
+              debugger
+              let pet
+              function value_check() {
+                var check_count = document.querySelectorAll(".input-pet").length;
+        
+                for (var i=0; i<check_count; i++) {
+                    if (document.querySelectorAll("input-pet")[i].checked == true) {
+                        pet = (document.querySelectorAll(".input-pet")[i].value);
+                    }
+                }
+              }
+              let name = document.querySelector("#input-name").value
+              let birthday_m = document.querySelector("#input-birthday-m").value
+              let birthday_d = document.querySelector("#input-birthday-d").value
+              let blood = document.querySelector("#input-blood").value
+              let hometown = document.querySelector("#input-hometown").value 
+              let hometown_detail = document.querySelector("#input-hometown-detail").value
+              let MBTI = document.querySelector("#input-mbti").value
+              // let pet = document.querySelector("#input-pet").value
+              let pet_detail = document.querySelector("#input-pet-detail").value
+              let hello = document.querySelector("#input-hello").value
+              let mood = document.querySelector("#input-mood").value
+            }
+       
+        </script>
+
+
+        <header>
+            <div class='title'>
+                <h1>SW사관학교 정글 우리는?</h1>
+            </div>
+            <div>
+              <button class="button is-primary is-outlined" onclick='openClose()'>등록하기</button>  
+              <button class="button is-danger is-outlined" onclick='logout()'>로그아웃</button>  
+            </div>
+            
+            <div class='card enrollment hide'>
+                <!-- 이름 -->
+                <div class="field">
+                    <label class="label">이름</label>
+                    <div class="control">
+                      <input class="input" type="text" placeholder="이름을 적어주세요" id="input-name">
                     </div>
-                    <div class="form-group">
-                        <textarea id="post-comment" class="form-control" rows="2" placeholder="내용을 입력하세요"
-                                  style="height: 100px;"></textarea>
+                </div>
+
+                <!-- 사진 -->
+                <label class="label">사진</label>
+                <div class="file has-name">
+                    <label class="file-label">
+                      <input class="file-input" type="file" name="resume">
+                      <span class="file-cta">
+                        <span class="file-icon">
+                          <i class="fas fa-upload"></i>
+                        </span>
+                        <span class="file-label">
+                          Choose a file…
+                        </span>
+                      </span>
+                      <span class="file-name">
+                      </span>
+                    </label>
+                </div>
+
+                <!-- 생일 -->
+                <div class="field">
+                    <label class="label">생일</label>
+                    <div class="control">
+                      <div class="select">
+                        <select id="input-birthday-m">
+                          <option disabled selected>월</option>
+                          <option>1월</option>
+                          <option>2월</option>
+                          <option>3월</option>
+                          <option>4월</option>
+                          <option>5월</option>
+                          <option>6월</option>
+                          <option>7월</option>
+                          <option>8월</option>
+                          <option>9월</option>
+                          <option>10월</option>
+                          <option>11월</option>
+                          <option>12월</option>
+                        </select>
+                      </div>
+                      <div class="select">
+                        <select id="input-birthday-d">
+                          <option disabled selected>일</option>
+                            <option>1일</option>
+                            <option>2일</option>
+                            <option>3일</option>
+                            <option>4일</option>
+                            <option>5일</option>
+                            <option>6일</option>
+                            <option>7일</option>
+                            <option>8일</option>
+                            <option>9일</option>
+                            <option>10일</option>
+                            <option>11일</option>
+                            <option>12일</option>
+                            <option>13일</option>
+                            <option>14일</option>
+                            <option>15일</option>
+                            <option>16일</option>
+                            <option>17일</option>
+                            <option>18일</option>
+                            <option>19일</option>
+                            <option>20일</option>
+                            <option>21일</option>
+                            <option>22일</option>
+                            <option>23일</option>
+                            <option>24일</option>
+                            <option>25일</option>
+                            <option>26일</option>
+                            <option>27일</option>
+                            <option>28일</option>
+                            <option>29일</option>
+                            <option>30일</option>
+                            <option>31일</option>
+
+                        </select>
+                      </div>
+                      
                     </div>
-                    <button type="button" class="btn btn-primary" onclick="postArticle()">저장하기</button>
+                </div>
+
+                <!-- 혈액형 -->
+                <div class="field">
+                    <label class="label">혈액형</label>
+                    <div class="control">
+                      <div class="select">
+                        <select id="input-blood">
+                          <option disabled selected>혈액형</option>
+                          <option>A형</option>
+                          <option>B형</option>
+                          <option>AB형</option>
+                          <option>O형</option>      
+                        </select>
+                      </div>
+                    </div>
+                </div>
+
+                <!-- 지역 -->
+                <div class="field">
+                    <label class="label">지역</label>
+                    <div class="control">
+                      <div class="select" >
+                        <select id="input-hometown">
+                          <option disabled selected>지역</option>
+                          <option>서울</option>
+                          <option>부산</option>
+                          <option>대구</option>
+                          <option>인천</option>
+                          <option>광주</option>
+                          <option>대전</option>
+                          <option>울산</option>
+                          <option>세종</option>
+                          <option>경기</option>
+                          <option>강원</option>
+                          <option>충북</option>
+                          <option>충남</option>
+                          <option>전북</option>
+                          <option>전남</option>
+                          <option>경북</option>
+                          <option>경남</option>
+                          <option>제주</option>
+                        </select>
+                      </div>
+                      <input class="input" type="text" placeholder="상세 지역을 입력해주세요" id="input-hometown-detail">
+                    </div>
+                    
+                    
+                      
+                </div>
+
+                <!-- MBTI -->
+                <div class="field">
+                    <label class="label">MBTI</label>
+                    <div class="control">
+                      <div class="select">
+                        <select id="input-mbti">
+                          <option disabled selected>나의 MBTI</option>
+                          <option>ISTJ</option>
+                          <option>ISFJ</option>
+                          <option>INFJ</option>
+                          <option>INTJ</option>
+                          <option>ISTP</option>
+                          <option>ISFP</option>
+                          <option>INFP</option>
+                          <option>INTP</option>
+                          <option>ESTP</option>
+                          <option>ESFP</option>
+                          <option>ENFP</option>
+                          <option>ENTP</option>
+                          <option>ESTJ</option>
+                          <option>ESFJ</option>
+                          <option>ENFJ</option>
+                          <option>ENTJ</option>
+                        </select>
+                      </div>
+                    </div>
+                </div>
+
+                <!-- 반려동물 -->
+                <div class="field">
+                    <label class="label">반려동물</label>
+                    <div class="control">
+                      <label class="radio">
+                        <input type="radio" name="question" class="input-pet">
+                        Yes
+                      </label>
+                      <label class="radio">
+                        <input type="radio" name="question" class="input-pet">
+                        No
+                      </label>
+                    </div>
+                    <div class="control">
+                        <input class="input" type="text" placeholder="어떤 동물을 키우시나요?" id="input-pet-detail">
+                      </div>
+                </div>
+
+                <!-- 지금 상태 -->
+                <div class="field">
+                  <label class="label">지금 상태</label>
+                  <div class="control">
+                    <input class="input" type="text" placeholder="현재 기분을 알려주세요" id="input-mood">
+                  </div>
+                </div>
+
+                <!-- 인삿말 -->
+                <div class="field">
+                  <label class="label">인삿말</label>
+                  <div class="control">
+                    <input class="input" type="text" placeholder="인삿말을 남겨주세요" id="input-hello">
+                  </div>
+                </div>
+
+                <!-- 제출/취소 -->
+                <div class="field is-grouped">
+                  <div class="control">
+                    <button class="button is-link" onclick="enroll()">Submit</button>
+                  </div>
+                  <div class="control">
+                    <button class="button is-link is-light" onclick="openClose()">Cancel</button>
+                  </div>
                 </div>
 
             </div>
 
-            <div id="cards-box" class="card-columns" style="display: block;">
+            <!-- tag 모음 -->
+            <div class="tags-container">
+              <div class="birthday">
+                <div class="button is-success">생일</div>
+                <button class="button is-success is-outlined" id="tag-1월" onclick="selectFilter('1월')">#1월</button>
+                <button class="button is-success is-outlined" id="tag-2월" onclick="selectFilter('2월')">#2월</button>
+                <button class="button is-success is-outlined" id="tag-3월" onclick="selectFilter('3월')">#3월</button>
+                <button class="button is-success is-outlined" id="tag-4월" onclick="selectFilter('4월')">#4월</button>
+                <button class="button is-success is-outlined" id="tag-5월" onclick="selectFilter('5월')">#5월</button>
+                <button class="button is-success is-outlined" id="tag-6월" onclick="selectFilter('6월')">#6월</button>
+                <button class="button is-success is-outlined" id="tag-7월" onclick="selectFilter('7월')">#7월</button>
+                <button class="button is-success is-outlined" id="tag-8월" onclick="selectFilter('8월')">#8월</button>
+                <button class="button is-success is-outlined" id="tag-9월" onclick="selectFilter('9월')">#9월</button>
+                <button class="button is-success is-outlined" id="tag-10월" onclick="selectFilter('10월')">#10월</button>
+                <button class="button is-success is-outlined" id="tag-11월" onclick="selectFilter('11월')">#11월</button>
+                <button class="button is-success is-outlined" id="tag-12월" onclick="selectFilter('12월')">#12월</button>
+              </div>
+              
+              <div class="blood">
+                <div class="button is-success">혈액형</div>
+                <button class="button is-success is-outlined" id="tag-A형" onclick="selectFilter('A형')">#A형</button>
+                <button class="button is-success is-outlined" id="tag-B형" onclick="selectFilter('B형')">#B형</button>
+                <button class="button is-success is-outlined" id="tag-AB형" onclick="selectFilter('AB형')">#AB형</button>
+                <button class="button is-success is-outlined" id="tag-O형" onclick="selectFilter('O형')">#O형</button>
+              </div>
+              
+              <div class="hometown">
+                <div class="button is-success">지역</div>
+                <button class="button is-success is-outlined" id="tag-서울" onclick="selectFilter('서울')">#서울</button>
+                <button class="button is-success is-outlined" id="tag-부산" onclick="selectFilter('부산')">#부산</button>
+                <button class="button is-success is-outlined" id="tag-대구" onclick="selectFilter('대구')">#대구</button>
+                <button class="button is-success is-outlined" id="tag-인천" onclick="selectFilter('인천')">#인천</button>
+                <button class="button is-success is-outlined" id="tag-광주" onclick="selectFilter('광주')">#광주</button>
+                <button class="button is-success is-outlined" id="tag-대전" onclick="selectFilter('대전')">#대전</button>
+                <button class="button is-success is-outlined" id="tag-울산" onclick="selectFilter('울산')">#울산</button>
+                <button class="button is-success is-outlined" id="tag-세종" onclick="selectFilter('세종')">#세종</button>
+                <button class="button is-success is-outlined" id="tag-경기" onclick="selectFilter('경기')">#경기</button>
+                <button class="button is-success is-outlined" id="tag-강원" onclick="selectFilter('강원')">#강원</button>
+                <button class="button is-success is-outlined" id="tag-충북" onclick="selectFilter('충북')">#충북</button>
+                <button class="button is-success is-outlined" id="tag-충남" onclick="selectFilter('충남')">#충남</button>
+                <button class="button is-success is-outlined" id="tag-전북" onclick="selectFilter('전북')">#전북</button>
+                <button class="button is-success is-outlined" id="tag-전남" onclick="selectFilter('전남')">#전남</button>
+                <button class="button is-success is-outlined" id="tag-경북" onclick="selectFilter('경북')">#경북</button>
+                <button class="button is-success is-outlined" id="tag-경남" onclick="selectFilter('경남')">#경남</button>
+                <button class="button is-success is-outlined" id="tag-제주" onclick="selectFilter('제주')">#제주</button>
+              </div>
+
+              <div class="MBTI">
+                <div class="button is-success">MBTI</div>
+                <button class="button is-success is-outlined" id="tag-ISTJ" onclick="selectFilter('ISTJ')">#ISTJ</button>
+                <button class="button is-success is-outlined" id="tag-ISFJ" onclick="selectFilter('ISFJ')">#ISFJ</button>
+                <button class="button is-success is-outlined" id="tag-INFJ" onclick="selectFilter('INFJ')">#INFJ</button>
+                <button class="button is-success is-outlined" id="tag-INTJ" onclick="selectFilter('INTJ')">#INTJ</button>
+                <button class="button is-success is-outlined" id="tag-ISTP" onclick="selectFilter('ISTP')">#ISTP</button>
+                <button class="button is-success is-outlined" id="tag-ISFP" onclick="selectFilter('ISFP')">#ISFP</button>
+                <button class="button is-success is-outlined" id="tag-INFP" onclick="selectFilter('INFP')">#INFP</button>
+                <button class="button is-success is-outlined" id="tag-INTP" onclick="selectFilter('INTP')">#INTP</button>
+                <button class="button is-success is-outlined" id="tag-ESTP" onclick="selectFilter('ESTP')">#ESTP</button>
+                <button class="button is-success is-outlined" id="tag-ESFP" onclick="selectFilter('ESFP')">#ESFP</button>
+                <button class="button is-success is-outlined" id="tag-ENFP" onclick="selectFilter('ENFP')">#ENFP</button>
+                <button class="button is-success is-outlined" id="tag-ENTP" onclick="selectFilter('ENTP')">#ENTP</button>
+                <button class="button is-success is-outlined" id="tag-ESTJ" onclick="selectFilter('ESTJ')">#ESTJ</button>
+                <button class="button is-success is-outlined" id="tag-ESFJ" onclick="selectFilter('ESFJ')">#ESFJ</button>
+                <button class="button is-success is-outlined" id="tag-ENFJ" onclick="selectFilter('ENFJ')">#ENFJ</button>
+                <button class="button is-success is-outlined" id="tag-ENTJ" onclick="selectFilter('ENTJ')">#ENTJ</button>
+              </div>
+
+              <div class="pet">
+                <div class="button is-success">반려동물</div>
+                <button class="button is-success is-outlined" id="tag-pet" onclick="selectFilter('pet')">#같이삽니다</button> 
+              </div>
+
+              <button class="button is-primary is-outlined" onclick="search()">검색</button>
+
+          </div>
+        </header>
+        <main>
+            <div class="cards-deck">  
                 <div class="card">
-                    <div class="card-body">
-                        <h5 class="title_sm">여기 메모 제목이 들어가죠</h5>
-                        <p class="card-text">메모 내용이 들어갑니다</p>
-                        <button type="button" onclick="modifyArticle(this)" class="btn btn-secondary modify" style="padding: 0px 5px;">수정</button>
-                        <button type="button" onclick="deleteArticle(this)" class="btn btn-dark" style="padding: 0px 5px;">삭제</button>
+                    <div class="card-content">
+                      <div class="media">
+                        <div class="media-left">
+                          <figure class="image is-48x48">
+                            <img id="card-picture"src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
+                          </figure>
+                        </div>
+                        <div class="media-content">
+                          <p class="title is-4" id="card-name">이승민</p>
+                          <p class="subtitle is-6" id="card-birthday">7월 11일</p>
+                        </div>
+                      </div>
+                      
+                      <div class="content" id="card-hello">
+                        안녕하세요 이승민입니다. 잘 부탁 드립니다!
+                      </div>
+                      <div>
+                        <span class="card-tag">#<span id="card-blood">B형</span></span>
+                        <span class="card-tag">#<span id="card-hometown">경기 고양</span></span>
+                        <span class="card-tag">#<span id="card-mbti">ENTP</span></span>
+                        <span class="card-tag">#<span id="card-pet">고양이</span></span>
+                        <span class="card-tag">#<span id="card-mood">행복</span></span>
+                      </div>
                     </div>
                 </div>
+            
             </div>
+        </main>
+
     </body>
 </html>
