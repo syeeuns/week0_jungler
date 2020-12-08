@@ -1,17 +1,100 @@
 <!DOCTYPE html>
 <html>
-<head>
-     <meta charset="utf-8">
-     <title>Test</title>
-</head>
-<body>
-  <h3>로그인폼</h3>
-  id : <input type="text" id="id" required>
-  password : <input type="password" id="password" required>
-  <button onclick="login()">로그인</button>
 
-  <hr>
-  <button onclick= "check()">확인</button>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
+
+    <title>Test</title>
+    <script>
+        async function login() {
+            const id = document.getElementById('id').value;
+            const password = document.getElementById('password').value;
+
+            let response = await fetch('/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 'id': id, 'password': password })
+            });
+
+            let data = await response.text(); //토큰 획득
+            if (data == 'fail') {
+                alert("로그인 실패");
+            }
+            else {
+                alert("로그인 성공" + data);
+                document.cookie = `jwt=${data}`;
+                check();
+
+            }
+
+        }
+
+        async function check() {
+            console.log(getCookie('jwt'));
+            let response = await fetch('/check_login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 'jwt': getCookie('jwt') })
+            });
+
+            let data = await response.text();
+            alert(data);
+        }
+    </script>
+
+    <style>
+        body {
+            width: 50%;
+            align-content: center;
+            align-content: center;
+
+        }
+    </style>
+</head>
+
+<body>
+    <div class="field">
+        <label class="label">ID</label>
+        <div class="control has-icons-left has-icons-right">
+            <input class="input is-success" type="text" placeholder="Text input" value="bulma">
+            <span class="icon is-small is-left">
+                <i class="fas fa-user"></i>
+            </span>
+            <span class="icon is-small is-right">
+                <i class="fas fa-check"></i>
+            </span>
+        </div>
+    </div>
+
+    <div class="field">
+        <label class="label">Password</label>
+        <div class="control has-icons-left has-icons-right">
+            <input class="input is-danger" type="password" placeholder="패스워드를 입력하세요" value="hello@">
+            <span class="icon is-small is-left">
+                <i class="fas fa-envelope"></i>
+            </span>
+            <span class="icon is-small is-right">
+                <i class="fas fa-exclamation-triangle"></i>
+            </span>
+        </div>
+        <!-- <p class="help is-danger">This email is invalid</p> -->
+    </div>
+
+
+    <div class="field is-grouped">
+        <div class="control">
+            <button class="button is-link" onclick="login()">로그인하기</button>
+        </div>
+        <div class="control">
+            <button class="button is-link is-light" onclick="check()">확인</button>
+        </div>
+    </div>
+
+
+
+
 
 </body>
+
 </html>
