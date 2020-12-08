@@ -76,41 +76,7 @@
         
     </head>
     <body>
-        <script defer>
-
-        // 
-          function postArticle() {
-            let title = $("#post-title").val();
-            let comment = $("#post-comment").val();
-            $.ajax({
-                type: "POST",
-                url: "/memo",
-                data: {title_give: title, comment_give: comment},
-                success: function (response) {
-                    if (response["result"] == "success") {
-                        alert("저장 완료!");
-                        window.location.reload();
-                    } else {
-                        alert("서버 오류!")
-                    }
-                }
-            })
-          }
-
-          function showArticles() {
-              $.ajax({
-                  type: "GET",
-                  url: "/memo",
-                  data: {},
-                  success: function (response) {
-                      let articles = response["articles"];
-                      console.log(articles);
-                      for (let i = 0; i < articles.length; i++) {
-                          makeCard(articles[i]["title"], articles[i]["comment"]);
-                      }
-                  }
-              })
-          }     
+        <script defer>     
 
           // DOM 조작
             function openClose() {
@@ -127,7 +93,6 @@
 
 
             // Ajax 요청
-
             // 필터걸기 search
             function search() {
               // 생일 Array
@@ -174,7 +139,8 @@
                 data: {birthday_m_array: birthday_m_array, blood_array: blood_array, hometown_array:hometown_array, mbti_array:mbti_array, pet_array:pet_array},
                 success: function (response) {
                     if (response["result"] == "success") {
-                        // 해야할 곳
+                      window.location.replace("/main/search")
+                        console.log('필터성공')
                     } else {
                         alert("서버 오류!")
                     }
@@ -185,7 +151,7 @@
             // ajax 프로필 등록하기
             function enroll() {
               let pet
-              if (document.querySelectorAll('.input-pet')[0].checked === true) {pet = 'Yes'}
+              if (document.querySelectorAll('.input-pet')[0].checked === true) {pet = 'Yes'} else {pet = 'No'}
               let name = document.querySelector("#input-name").value
               let birthday_m = document.querySelector("#input-birthday-m").value
               let birthday_d = document.querySelector("#input-birthday-d").value
@@ -525,7 +491,41 @@
           </div>
         </header>
         <main>
-            <div class="cards-deck">  
+          <!-- Jinja2 syntax -->
+          <div class="cards-deck">
+            {% for card in cards %}
+            <div class="card">
+                <div class="card-content">
+                  <div class="media">
+                    <div class="media-left">
+                      <figure class="image is-48x48">
+                        <img id="card-picture"src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
+                      </figure>
+                    </div>
+                    <div class="media-content">
+                      <p class="title is-4" id="card-name">{{card.name}}</p>
+                      <p class="subtitle is-6" id="card-birthday">{{card.birthday_m}} {{card.birthday_d}}</p>
+                    </div>
+                  </div>
+                  
+                  <div class="content" id="card-hello">
+                    {{card.hello}}
+                  </div>
+                  <div>
+                    <span class="card-tag">#<span id="card-blood">{{card.blood}}</span></span>
+                    <span class="card-tag">#<span id="card-hometown">{{card.hometown}} {{card.hometown_detail}}</span></span>
+                    <span class="card-tag">#<span id="card-mbti">{{card.mbti}}</span></span>
+                    <span class="card-tag">#<span id="card-pet">{{card.pet_detail}}</span></span>
+                    <span class="card-tag">#<span id="card-mood">{{card.mood}}</span></span>
+                  </div>
+                </div>
+            </div>
+            {% endfor %}
+        
+        </div>
+
+          <!-- 더미 코드 -->
+            <!-- <div class="cards-deck">  
                 <div class="card">
                     <div class="card-content">
                       <div class="media">
@@ -553,7 +553,7 @@
                     </div>
                 </div>
             
-            </div>
+            </div> -->
         </main>
 
     </body>
