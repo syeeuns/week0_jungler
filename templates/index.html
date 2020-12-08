@@ -153,12 +153,12 @@
               }
               console.log(hometown_array)
 
-              let MBTIAll = document.querySelectorAll(".selected-MBTI")
-              let MBTI_array = []
-              for(let i=0; i<MBTIAll.length; i++) {
-                MBTI_array[i] = MBTIAll[i].textContent.slice(1);
+              let mbtiAll = document.querySelectorAll(".selected-MBTI")
+              let mbti_array = []
+              for(let i=0; i<mbtiAll.length; i++) {
+                mbti_array[i] = mbtiAll[i].textContent.slice(1);
               }
-              console.log(MBTI_array)
+              console.log(mbti_array)
 
               let petAll = document.querySelectorAll(".selected-pet")
               let pet_array = []
@@ -171,7 +171,7 @@
               $.ajax({
                 type: "POST",
                 url: "/main/search",
-                data: {birthday_m_array: birthday_m_array, blood_array: blood_array, hometown_array:hometown_array, MBTI_array:MBTI_array, pet_array:pet_array},
+                data: {birthday_m_array: birthday_m_array, blood_array: blood_array, hometown_array:hometown_array, mbti_array:mbti_array, pet_array:pet_array},
                 success: function (response) {
                     if (response["result"] == "success") {
                         // 해야할 곳
@@ -192,7 +192,7 @@
               let blood = document.querySelector("#input-blood").value
               let hometown = document.querySelector("#input-hometown").value 
               let hometown_detail = document.querySelector("#input-hometown-detail").value
-              let MBTI = document.querySelector("#input-mbti").value
+              let mbti = document.querySelector("#input-mbti").value
               let pet_detail = document.querySelector("#input-pet-detail").value
               let hello = document.querySelector("#input-hello").value
               let mood = document.querySelector("#input-mood").value
@@ -207,7 +207,7 @@
                   blood_give: blood,
                   hometown_give:hometown,
                   hometown_detail_give: hometown_detail,
-                  mbti_give: MBTI,
+                  mbti_give: mbti,
                   pet_give: pet,
                   pet_detail_give: pet_detail,
                   mood_give: mood,
