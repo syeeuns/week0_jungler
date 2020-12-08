@@ -174,33 +174,18 @@
                 data: {birthday_m_array: birthday_m_array, blood_array: blood_array, hometown_array:hometown_array, MBTI_array:MBTI_array, pet_array:pet_array},
                 success: function (response) {
                     if (response["result"] == "success") {
-                        alert("저장 완료!");
-                        window.location.reload();
+                        // 해야할 곳
                     } else {
                         alert("서버 오류!")
                     }
                 }
               })
-                // birthday_m_array
-                // blood_array
-                // hometown_array
-                // MBTI_array
-                // pet_array
             }
             
-            // 등록하기
+            // ajax 프로필 등록하기
             function enroll() {
-              debugger
               let pet
-              function value_check() {
-                var check_count = document.querySelectorAll(".input-pet").length;
-        
-                for (var i=0; i<check_count; i++) {
-                    if (document.querySelectorAll("input-pet")[i].checked == true) {
-                        pet = (document.querySelectorAll(".input-pet")[i].value);
-                    }
-                }
-              }
+              if (document.querySelectorAll('.input-pet')[0].checked === true) {pet = 'Yes'}
               let name = document.querySelector("#input-name").value
               let birthday_m = document.querySelector("#input-birthday-m").value
               let birthday_d = document.querySelector("#input-birthday-d").value
@@ -208,10 +193,35 @@
               let hometown = document.querySelector("#input-hometown").value 
               let hometown_detail = document.querySelector("#input-hometown-detail").value
               let MBTI = document.querySelector("#input-mbti").value
-              // let pet = document.querySelector("#input-pet").value
               let pet_detail = document.querySelector("#input-pet-detail").value
               let hello = document.querySelector("#input-hello").value
               let mood = document.querySelector("#input-mood").value
+
+              $.ajax({
+                type: "POST",
+                url: "/main",
+                data: {
+                  name_give: name,
+                  birthday_m_give: birthday_m,
+                  birthday_d_give:birthday_d,
+                  blood_give: blood,
+                  hometown_give:hometown,
+                  hometown_detail_give: hometown_detail,
+                  mbti_give: MBTI,
+                  pet_give: pet,
+                  pet_detail_give: pet_detail,
+                  mood_give: mood,
+                  hello_give: hello,
+                  },
+                success: function (response) {
+                    if (response["result"] == "success") {
+                        alert("저장 완료!");
+                        window.location.reload();
+                    } else {
+                        alert("서버 오류!")
+                    }
+                }
+              })
             }
        
         </script>
