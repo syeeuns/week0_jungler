@@ -18,13 +18,15 @@
             });
 
             let data = await response.text(); //토큰 획득
-            if (data == 'fail') {
-                alert("로그인 실패");
-            }
-            else {
+            console.log(data);
+            if (data.includes('success')) {
                 alert("로그인 성공" + data);
                 document.cookie = `jwt=${data}`;
                 check();
+            }
+            else {
+                alert("로그인 실패");
+                
 
             }
 
@@ -49,6 +51,7 @@
             align-content: center;
             align-content: center;
             margin-top: 100px;
+            
 
         }
         

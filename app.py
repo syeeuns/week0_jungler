@@ -47,7 +47,7 @@ def login_proc():
 	# 아이디, 비밀번호가 일치하지 않는 경우
 	else:
 		return jsonify(
-			result = "Invalid Params!"
+			result = "fail"
 		)
 
 #################################################
