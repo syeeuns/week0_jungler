@@ -43,12 +43,17 @@ def login_proc():
 			access_token = create_access_token(identity = user_id,
 											expires_delta = False)
 		)
-	
+		
+
 	# 아이디, 비밀번호가 일치하지 않는 경우
 	else:
 		return jsonify(
 			result = "fail"
 		)
+
+@app.route('/check_login', methods=['POST'])
+def check_login():
+    	return render_template('index.html')
 
 #################################################
 # 회원 전용 API 영역
