@@ -91,6 +91,10 @@
               filter.classList.toggle(`selected-${parentName}`) // 
             }
 
+            function goHome() {
+              window.location.replace("/")
+            }
+
 
             // Ajax 요청
             // 필터걸기 search
@@ -487,12 +491,15 @@
               </div>
 
               <button class="button is-primary is-outlined" onclick="search()">검색</button>
+              <button class="button is-danger is-outlined" onclick='goHome()'>전체 보기</button>  
 
           </div>
         </header>
         <main>
           <!-- Jinja2 syntax -->
           <div class="cards-deck">
+
+            <h3>해당하는 사람은 {{number}}명 입니다</h3>
             {% for card in cards %}
             <div class="card">
                 <div class="card-content">
