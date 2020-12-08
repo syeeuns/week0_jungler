@@ -19,7 +19,47 @@ jwt = JWTManager(app)
 
 @app.route("/")
 def test_test():
-	return "<h1>Hello, I'm GEM!</h1>"
+	return render_template('login.html')
+
+# 로그인 API 영역
+
+admin_id = "1234"
+admin_pw = "qwer"
+
+@app.route("/login", methods=['POST'])
+def login_proc():
+	
+	# 클라이언트로부터 요청된 값
+	input_data = request.get_json()
+	user_id = input_data['id']
+	user_pw = input_data['password']
+
+	# 아이디, 비밀번호가 일치하는 경우
+	if (user_id == admin_id and
+		user_pw == admin_pw):
+		return jsonify(
+			result = "success",
+			# 검증된 경우, access 토큰 반환
+			access_token = create_access_token(identity = user_id,
+											expires_delta = False)
+		)
+	
+	# 아이디, 비밀번호가 일치하지 않는 경우
+	else:
+		return jsonify(
+			result = "Invalid Params!"
+		)
+
+#################################################
+# 회원 전용 API 영역
+@app.route('/user_only', methods=["GET"])
+@jwt_required
+def user_only():
+	cur_user = get_jwt_identity()
+	if cur_user is None:
+		return "User Only!"
+	else:
+		return "Hi!," + cur_user
 
 @app.route('/')
 def home():
