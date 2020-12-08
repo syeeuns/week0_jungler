@@ -1,0 +1,193 @@
+<!Doctype html>
+<html lang="ko">
+
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+              integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+              crossorigin="anonymous">
+
+        <!-- JS -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+                integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+                crossorigin="anonymous"></script>
+
+        <!-- 구글폰트 -->
+        <link href="https://fonts.googleapis.com/css?family=Stylish&display=swap" rel="stylesheet">
+
+        <title>SwJungle 이승민 | 나홀로 메모장</title>
+
+        <!-- style -->
+        <style type="text/css">
+            * {
+                font-family: "Stylish", sans-serif;
+            }
+
+            .wrap {
+                width: 1200px;
+                margin: auto;
+            }
+
+            .comment {
+                color: blue;
+                font-weight: bold;
+            }
+
+            #post-box {
+                width: 500px;
+                margin: 20px auto;
+                padding: 50px;
+                border: black solid;
+                border-radius: 5px;
+            }
+        </style>
+                <script>
+                    $(document).ready(function () {
+                        $("#cards-box").html("");
+                        showArticles();
+                    });
+
+
+                    function postArticle() {
+                        let title = $("#post-title").val();
+                        let comment = $("#post-comment").val();
+
+
+                        $.ajax({
+                            type: "POST",
+                            url: "/memo",
+                            data: {title_give: title, comment_give: comment},
+                            success: function (response) {
+                                if (response["result"] == "success") {
+                                    alert("저장 완료!");
+                                    window.location.reload();
+                                } else {
+                                    alert("서버 오류!")
+                                }
+                            }
+                        })
+                    }
+
+                    function showArticles() {
+
+                        $.ajax({
+                            type: "GET",
+                            url: "/memo",
+                            data: {},
+                            success: function (response) {
+                                let articles = response["articles"];
+                                console.log(articles);
+                                for (let i = 0; i < articles.length; i++) {
+                                    makeCard(articles[i]["title"], articles[i]["comment"]);
+                                }
+                            }
+                        })
+                    }
+
+                    function updateArticle(target) {
+                        let oldTitle = $("#old-title").val();
+                        let title = $("#modify-title").val();
+                        let comment = $("#modify-comment").val();
+                        console.log(oldTitle, title, comment)
+                        $.ajax({
+                            type: "POST",
+                            url: "/memo/update",
+                            data: {oldTitle_give: oldTitle, title_give: title, comment_give: comment},
+                            success: function (response) {
+                                if (response["result"] == "success") {
+                                    alert("수정 성공!");
+                                    window.location.reload();
+                                } else {
+                                    alert("서버 오류!")
+                                }
+                            }
+                        })
+
+                    }
+
+                    function deleteArticle(target) {
+                        let title = target.parentElement.querySelector('.title_sm').textContent;
+                        console.log(title)
+                        $.ajax({
+                            type: "POST",
+                            url: "/memo/delete",
+                            data: {title_give: title},
+                            success: function (response) {
+                                if (response["result"] == "success") {
+                                    alert("삭제 성공!");
+                                    window.location.reload();
+                                } else {
+                                    alert("서버 오류!")
+                                }
+                            }
+                        })
+
+                    }
+
+
+                    function makeCard(title,comment) {
+                        let tempHtml = `<div class="card">
+                            <div class="card-body">
+                                <h5 class="title_sm">${title}</h5>
+                                <p class="card-text">${comment}</p>
+                                <button type="button" onclick="modifyArticle(this)" class="btn btn-secondary modify" style="padding: 0px 5px;">수정</button>
+                                <button type="button" onclick="deleteArticle(this)" class="btn btn-dark" style="padding: 0px 5px;">삭제</button>
+                            </div>
+                        </div>`;
+                        $("#cards-box").append(tempHtml);
+                    }
+
+                    function modifyArticle(target) {
+                        let oldTitle = target.parentNode.querySelector('h5').textContent
+                        let oldArticle = target.parentNode.querySelector('p').textContent
+                        target.parentNode.parentNode.innerHTML = `
+                             <div class="card" style="padding: 20px 20px 0px 20px; border: none;">
+                                <div class="form-group">
+                                    <input id="old-title" value="${oldTitle}" style="display: none"></input>
+                                    <input id="modify-title" class="form-control" style="margin-bottom: 10px" value="${oldTitle}">
+                                </sapn>
+                                <div class="form-group">
+                                    <textarea id="modify-comment" class="form-control" rows="2" >${oldArticle}</textarea>
+                                </div>
+                                <button type="button" onclick="updateArticle(this)" class="btn btn-primary" style="padding: 0px 5px;">저장</button>
+                            </div>
+                            `
+                    }
+                </script>
+    </head>
+    <body>
+        <div class="wrap">
+            <div class="jumbotron">
+                <h1>나홀로메모장 <span class="badge badge-secondary">ver2.0</span></h1>
+
+                <div class="create-memo_sm" style="width: 40%;">
+                    <div class="form-group">
+                        <input id="post-title" class="form-control" placeholder="메모 제목을 입력해주세요">
+                    </div>
+                    <div class="form-group">
+                        <textarea id="post-comment" class="form-control" rows="2" placeholder="내용을 입력하세요"
+                                  style="height: 100px;"></textarea>
+                    </div>
+                    <button type="button" class="btn btn-primary" onclick="postArticle()">저장하기</button>
+                </div>
+
+            </div>
+
+            <div id="cards-box" class="card-columns" style="display: block;">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="title_sm">여기 메모 제목이 들어가죠</h5>
+                        <p class="card-text">메모 내용이 들어갑니다</p>
+                        <button type="button" onclick="modifyArticle(this)" class="btn btn-secondary modify" style="padding: 0px 5px;">수정</button>
+                        <button type="button" onclick="deleteArticle(this)" class="btn btn-dark" style="padding: 0px 5px;">삭제</button>
+                    </div>
+                </div>
+            </div>
+    </body>
+</html>
