@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+
+    <meta property="og:title" content="SW사관학교 정글 우리는?"/>
+    <meta property="og:url" content=""/>
+    <meta property="og:image" content="/static/jungler.jpg"/>
+    <meta property="og:description" content="소개문구"/>
+
+    <style>
+        * {
+            font-family: 'Noto Sans KR', 'sans-serif';
+        }
+
+        img.logo {
+            margin: 10px;
+            width: 200px;
+            height: auto;
+        }
+
+        .hero {
+            background-color: #3ea272;
+            height: 80vh;
+            margin-bottom: 20px;
+            text-align: center;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero-body {
+            display: flex;
+            align-items: center;
+            text-align: center;
+        }
+
+        .hero .title {
+            color: white;
+            font-size: 30px;
+        }
+
+        .hero .container {
+            margin-top: 20px;
+            text-align: center;
+            width: 400px;
+        }
+
+        #logincon{
+            display: none;
+        }
+
+        .label {
+            margin-top: 20px;
+            width: 100%;
+            color: white;
+            text-align: left;
+        }
+
+        .button {
+            margin-top: 20px;
+            background-color: white;
+            color: #3ea272;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .field.is-grouped{
+            justify-content: flex-end;
+        }
+
+    </style>
+    <script>
+        $(document).ready(function () {
+            $("#register").hide();
+        });
+
+        // 로그인 부분 성공/아이디없음/비번틀림 3가지 경우 존재
+        async function login() {
+            const id = document.getElementById('id').value;
+            const password = document.getElementById('password').value;
+
+            let response = await fetch('/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 'id': id, 'password': password })
+            });
+            
+            let data = await response.text(); //토큰 획득
+            let parsed = JSON.parse(data);
+            console.log(data);
+            if (parsed.login == true) {
+                alert("환영합니다");                
+                window.location.replace("/home")
+            } else if(parsed.result == "empty"){
+                alert("존재하지 않는 아이디입니다");
+            } else {
+                alert("아이디 또는 암호가 잘못 되었습니다");
+            }
+
+        }
+
+        function openLogin() {
+            $('#hello').hide();
+            $('#logincon').show();
+        }
+
+
+        function register() {
+            $("#logincon").hide();
+            $("#register").show();
+        }
+
+        function finreg() {
+            let idreg = $("#idreg").val();
+            let passwordreg = $("#passwordreg").val();
+
+            if (idreg != '') {
+                if (passwordreg != '') {
+                    $.ajax({
+                        type: "POST",
+                        url: "/register",
+                        data: {id_give: idreg, password_give: passwordreg},
+                        success: function (response) {
+                            if (response["result"] == "success") {
+                                alert("회원가입성공!!");
+                            } else {
+                                alert("회원가입 실패!!!")
+                            }
+                        }
+                    })
+                    $("#logincon").show();
+                    $("#register").hide();
+                } else {
+                    alert("password를 입력하세요")
+                }
+
+            } else {
+                alert("ID를 입력하세요")
+            }
+        }
+
+
+    </script>
+
+</head>
+
+<body>
+<div class='nav'>
+    <img class="logo" src="{{ url_for('static', filename='jungler_logo.png') }}"/>
+</div>
+
+<section class="hero home">
+    <div class="hero-body">
+        <div class="container" id="hello">
+            <h1 class="title">
+                당신을 '정글'로 초대합니다.
+            </h1>
+            <button class="button is-success is-light" id="btn-register" onclick='openLogin()'>정글 입성하기</button>
+        </div>
+    <div class="container container-login" id="logincon">
+    <h1 class="title is-1">로그인</h1>
+
+    <div class="field">
+        <label class="label">아이디</label>
+        <div class="control">
+            <input class="input" type="text" placeholder="ex) 1기_홍길동" value="" id="id">
+        </div>
+    </div>
+
+    <div class="field">
+        <label class="label">비밀번호</label>
+        <div class="control">
+            <input class="input" type="password" placeholder="패스워드를 입력하세요" value="" id="password">
+        </div>
+        <!-- <p class="help is-danger">This email is invalid</p> -->
+    </div>
+
+
+    <div class="field is-grouped">
+        <div class="control">
+            <button class="button" onclick="login()">로그인</button>
+        </div>
+        <div class="control">
+            <button class="button" onclick="register()">회원가입</button>
+        </div>
+    </div>
+</div>
+
+
+<div class="container" id="register">
+    <h1 class="title is-1">회원가입</h1>
+    <div class="field">
+        <label class="label">아이디</label>
+        <div class="control">
+            <input class="input" type="text" placeholder="ex) 1기_홍길동" value="" id="idreg">
+        </div>
+    </div>
+
+    <div class="field">
+        <label class="label">비밀번호</label>
+        <div class="control">
+            <input class="input" type="password" placeholder="패스워드를 입력하세요" value="" id="passwordreg">
+        </div>
+        <!-- <p class="help is-danger">This email is invalid</p> -->
+    </div>
+
+    <div class="field is-grouped">
+        <div class="control">
+            <button class="button" onclick="finreg()">완료</button>
+        </div>
+    </div>
+
+
+</div>
+    </div>
+</section>
+
+
+
+
+
+</body>
+
+</html>

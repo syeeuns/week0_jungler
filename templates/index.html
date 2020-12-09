@@ -1,567 +1,708 @@
 <!Doctype html>
 <html lang="ko">
 
-    <head>
-        <!-- Required meta tags -->
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        
-        <!-- Bulma -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
-        <script defer src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script>
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-        <!-- 구글폰트 -->
-        <link href="https://fonts.googleapis.com/css?family=Stylish&display=swap" rel="stylesheet">
+    <!-- Bulma -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script>
 
-        <!-- Jquery -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- 구글폰트 -->
+    <link href="https://fonts.googleapis.com/css?family=Stylish&display=swap" rel="stylesheet">
 
-        <!-- CSS -->
-        <!-- <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet"> -->
+    <!-- Jquery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-        <!-- Javascript -->
-        <!-- <script defer src="{{ url_for('static', filename='script.js') }}" > </script> -->
+    <!-- CSS -->
+    <!-- <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet"> -->
 
-        <!-- OG tag -->
-        <meta property="og:title" content="SW사관학교 정글 우리는?" />
-        <meta property="og:url" content="" />
-        <meta property="og:image" content="/static/jungler.jpg" />
-        <meta property="og:description" content="소개문구" /> 
+    <!-- Javascript -->
+    <!-- <script defer src="{{ url_for('static', filename='script.js') }}" > </script> -->
 
-        <!-- 타이틀 -->
-        <title>SW사관학교 정글 우리는?</title>
+    <!-- OG tag -->
+    <meta property="og:title" content="SW사관학교 정글 우리는?"/>
+    <meta property="og:url" content=""/>
+    <meta property="og:image" content="/static/jungler.jpg"/>
+    <meta property="og:description" content="소개문구"/>
 
-        <!-- style -->
-        <style>
-            .hide {
-              /* display: none; */
-                visibility: hidden;
-                height: 0px !important;
-                padding: 0px !important;
-                margin: 0px !important;
-            }
+    <!-- 타이틀 -->
+    <title>SW사관학교 정글 우리는?</title>
 
-            .enrollment {
-                display: block;
-                margin-left: auto !important;
-                margin-right: auto !important;
-                margin-top: 20px;
-                padding: 1rem;
-            }
+    <!-- style -->
+    <style>
+        *{
+            font-family: 'Noto Sans KR', 'sans-serif';
+        }
 
-            .cards-deck {
-                display: flex;
-                align-items: center;
-                flex-direction: column;
+        img.logo {
+            margin: 10px;
+            width: 200px;
+            height: auto;
+        }
+
+        .title:not(:last-child) {
+            margin-bottom: 0;
+        }
+
+        #btn-logout {
+            float: right;
+            margin: 20px 10px;
+            background-color: #3ea272;
+            color: white;
+            border: none;
+            outline: none;
+        }
+
+        .hero {
+            background-color: #3ea272;
+            height: 40vh;
+            width: 100%;
+            margin-bottom: 20px;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero-body {
+            display: flex;
+            align-items: center;
+        }
+
+        .hero .title {
+            color: white;
+        }
+
+        .hero .container{
+            margin-top: 20px;
+        }
+
+        .input{
+            width: 200px;
+            margin-top: 0;
+        }
+
+        .input.hello{
+            width: 600px;
+        }
+
+        .label{
+            margin-top: 20px;
+        }
+
+        .mbti_link{
+            font-size: 14px;
+        }
+
+        .tags-total{
+            width: 90%;
+            margin-right: auto;
+            margin-left: auto;
+        }
+
+        .tags-total > h1{
+            font-size: 24px;
+        }
+
+        .tags-container {
+            background-color: rgba(62, 162, 114, 0.1);
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        #btn-register {
+            margin-top: 20px;
+            background-color: white;
+            color: #3ea272;
+        }
+
+        .btn-tags {
+            width: 80%;
+            margin: 10px auto;
+            text-align: center;
+        }
+
+        .hide {
+            /* display: none; */
+            visibility: hidden;
+            height: 0px !important;
+            padding: 0px !important;
+            margin: 0px !important;
+        }
+
+        .enrollment {
+            display: block;
+            margin-left: auto !important;
+            margin-right: auto !important;
+            margin-top: 20px;
+            padding: 20px;
+        }
+
+        .btn-enrolls{
+            float: right;
+        }
+
+        .cards-deck {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .card {
+            margin: 30px;
+            width: 50vw;
+            box-shadow: none;
+            border: 0.5px solid rgba(0,0,0,0.1);
+            border-radius: 0;
+        }
 
 
-            }
-            .card {
-                margin: 30px;
-                width: 70vw;
-            }
+        .card-tag {
+            margin-right: 8px;
+        }
 
-            .card-tag {
-              margin-right: 15px;
-            }
+        .card-tags{
+            color: #3f729b;
+        }
 
-            input {
-              margin-top: 5px;
-            }
-            
-            button {
-              margin-bottom: 5px;
-            }
-        </style>
-        
-    </head>
-    <body>
-        <script defer>     
+        .cards-deck > h2{
+            font-size: 24px;
+        }
 
-          // DOM 조작
-            function openClose() {
-              let enrollment = document.querySelector('.enrollment');
-              enrollment.classList.toggle('hide')
-            }
+        input {
+            margin-top: 5px;
+        }
 
-            function selectFilter(select) {
-              let filter = document.querySelector(`#tag-${select}`)
-              let parentName = filter.parentNode.classList[0]
-              filter.classList.toggle("is-outlined") // 선택된 디자인 상태를 나타내기 위해
-              filter.classList.toggle(`selected-${parentName}`) // 
-            }
+        button {
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
 
-            function goHome() {
-              window.location.replace("/")
-            }
+        .btn-tags > button{
+            background-color: #3ea272;
+            color: white;
+            font-weight: 600;
+            border: none;
+            outline: none;
+        }
 
+        .button.is-success{
+            background-color: #3ea272;
+            color: white;
+            font-weight: 600;
+        }
 
-            // Ajax 요청
-            // 필터걸기 search
-            function search() {
-              // 생일 Array
-              let birthdayAll = document.querySelectorAll(".selected-birthday");
-              let birthday_m_array = []
-              for(let i=0; i<birthdayAll.length; i++) {
-                birthday_m_array[i] = birthdayAll[i].textContent.slice(1);
-              }
-              console.log(birthday_m_array)
-
-              let bloodAll = document.querySelectorAll(".selected-blood")
-              let blood_array = []
-              for(let i=0; i<bloodAll.length; i++) {
-                blood_array[i] = bloodAll[i].textContent.slice(1);
-              }
-              console.log(blood_array)
+        .button.is-success.is-outlined{
+            border-color: #3ea272;
+            color: #3ea272;
+            font-weight: 400;
+        }
 
 
-              let hometownAll = document.querySelectorAll(".selected-hometown")
-              let hometown_array = []
-              for(let i=0; i<hometownAll.length; i++) {
-                hometown_array[i] = hometownAll[i].textContent.slice(1);
-              }
-              console.log(hometown_array)
+    </style>
 
-              let mbtiAll = document.querySelectorAll(".selected-MBTI")
-              let mbti_array = []
-              for(let i=0; i<mbtiAll.length; i++) {
-                mbti_array[i] = mbtiAll[i].textContent.slice(1);
-              }
-              console.log(mbti_array)
+</head>
+<body>
+<script>
 
-              let petAll = document.querySelectorAll(".selected-pet")
-              let pet_array = []
-              for(let i=0; i<petAll.length; i++) {
-                pet_array[i] = petAll[i].textContent.slice(1);
-              }
-              console.log(pet_array)
+    // DOM 조작
+    function openClose() {
+        let enrollment = document.querySelector('.enrollment');
+        enrollment.classList.toggle('hide')
+    }
+
+    function selectFilter(select) {
+        let filter = document.querySelector(`#tag-${select}`)
+        let parentName = filter.parentNode.classList[0]
+        filter.classList.toggle("is-outlined") // 선택된 디자인 상태를 나타내기 위해
+        filter.classList.toggle(`selected-${parentName}`) //
+    }
+
+    function goHome() {
+        window.location.replace("/home")
+    }
 
 
-              $.ajax({
-                type: "POST",
-                url: "/main/search",
-                data: {birthday_m_array: birthday_m_array, blood_array: blood_array, hometown_array:hometown_array, mbti_array:mbti_array, pet_array:pet_array},
-                success: function (response) {
-                    if (response["result"] == "success") {
-                      window.location.replace("/main/search")
-                        console.log('필터성공')
-                    } else {
-                        alert("서버 오류!")
-                    }
+    // Ajax 요청
+    // 로그아웃
+    function logout() {
+        $.ajax({
+            type: "GET",
+            url: "/logout",
+            data: {},
+            success: function (response) {
+                if(response["result"] == "success") {
+                    window.location.replace("/")
+                } else {
+                    alert("서버오류")
                 }
-              })
             }
-            
-            // ajax 프로필 등록하기
-            function enroll() {
-              let pet
-              if (document.querySelectorAll('.input-pet')[0].checked === true) {pet = 'Yes'} else {pet = 'No'}
-              let name = document.querySelector("#input-name").value
-              let birthday_m = document.querySelector("#input-birthday-m").value
-              let birthday_d = document.querySelector("#input-birthday-d").value
-              let blood = document.querySelector("#input-blood").value
-              let hometown = document.querySelector("#input-hometown").value 
-              let hometown_detail = document.querySelector("#input-hometown-detail").value
-              let mbti = document.querySelector("#input-mbti").value
-              let pet_detail = document.querySelector("#input-pet-detail").value
-              let hello = document.querySelector("#input-hello").value
-              let mood = document.querySelector("#input-mood").value
+        })
+    }
 
-              $.ajax({
-                type: "POST",
-                url: "/main",
-                data: {
-                  name_give: name,
-                  birthday_m_give: birthday_m,
-                  birthday_d_give:birthday_d,
-                  blood_give: blood,
-                  hometown_give:hometown,
-                  hometown_detail_give: hometown_detail,
-                  mbti_give: mbti,
-                  pet_give: pet,
-                  pet_detail_give: pet_detail,
-                  mood_give: mood,
-                  hello_give: hello,
-                  },
-                success: function (response) {
-                    if (response["result"] == "success") {
-                        alert("저장 완료!");
-                        window.location.reload();
-                    } else {
-                        alert("서버 오류!")
-                    }
+    // 필터걸기 search
+    function search() {
+        // 생일 Array
+        let birthdayAll = document.querySelectorAll(".selected-birthday");
+        let birthday_m_array = []
+        for (let i = 0; i < birthdayAll.length; i++) {
+            birthday_m_array[i] = birthdayAll[i].textContent.slice(1);
+        }
+        console.log(birthday_m_array)
+
+        let bloodAll = document.querySelectorAll(".selected-blood")
+        let blood_array = []
+        for (let i = 0; i < bloodAll.length; i++) {
+            blood_array[i] = bloodAll[i].textContent.slice(1);
+        }
+        console.log(blood_array)
+
+
+        let hometownAll = document.querySelectorAll(".selected-hometown")
+        let hometown_array = []
+        for (let i = 0; i < hometownAll.length; i++) {
+            hometown_array[i] = hometownAll[i].textContent.slice(1);
+        }
+        console.log(hometown_array)
+
+        let mbtiAll = document.querySelectorAll(".selected-MBTI")
+        let mbti_array = []
+        for (let i = 0; i < mbtiAll.length; i++) {
+            mbti_array[i] = mbtiAll[i].textContent.slice(1);
+        }
+        console.log(mbti_array)
+
+        let petAll = document.querySelectorAll(".selected-pet")
+        let pet_array = []
+        for (let i = 0; i < petAll.length; i++) {
+            pet_array[i] = petAll[i].textContent.slice(1);
+        }
+        console.log(pet_array)
+
+
+        $.ajax({
+            type: "POST",
+            url: "/main/search",
+            data: {
+                birthday_m_array: birthday_m_array,
+                blood_array: blood_array,
+                hometown_array: hometown_array,
+                mbti_array: mbti_array,
+                pet_array: pet_array
+            },
+            success: function (response) {
+                if (response["result"] == "success") {
+                    window.location.replace("/main/search")
+                    console.log('필터성공')
+                } else {
+                    alert("서버 오류!")
                 }
-              })
             }
-       
-        </script>
+        })
+    }
+
+    // ajax 프로필 등록하기
+    function enroll() {
+        let pet
+        if (document.querySelectorAll('.input-pet')[0].checked === true) {
+            pet = 'Yes'
+        } else {
+            pet = 'No'
+        }
+        let name = document.querySelector("#input-name").value
+        let birthday_m = document.querySelector("#input-birthday-m").value
+        let birthday_d = document.querySelector("#input-birthday-d").value
+        let blood = document.querySelector("#input-blood").value
+        let hometown = document.querySelector("#input-hometown").value
+        let hometown_detail = document.querySelector("#input-hometown-detail").value
+        let mbti = document.querySelector("#input-mbti").value
+        let pet_detail = document.querySelector("#input-pet-detail").value
+        let hello = document.querySelector("#input-hello").value
+        let mood = document.querySelector("#input-mood").value
+
+        if(!name || !birthday_m || !birthday_d || !blood || !hometown || !mbti || !pet || !mood){
+            alert('입력이 완료되지 않았습니다!')
+            return
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/main",
+            data: {
+                name_give: name,
+                birthday_m_give: birthday_m,
+                birthday_d_give: birthday_d,
+                blood_give: blood,
+                hometown_give: hometown,
+                hometown_detail_give: hometown_detail,
+                mbti_give: mbti,
+                pet_give: pet,
+                pet_detail_give: pet_detail,
+                mood_give: mood,
+                hello_give: hello,
+            },
+            success: function (response) {
+                if (response["result"] == "success") {
+                    alert("저장 완료!");
+                    window.location.reload();
+                } else {
+                    alert("서버 오류!")
+                }
+            }
+        })
+    }
+</script>
 
 
-        <header>
-            <div class='title'>
-                <h1>SW사관학교 정글 우리는?</h1>
+<header>
+    <div class='nav'>
+        <img class="logo" src="{{ url_for('static', filename='jungler_logo.png') }}"/>
+        <button class="button" id="btn-logout" onclick='logout()'>로그아웃</button>
+    </div>
+    <section class="hero home">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title">
+                    나와 비슷한 정글러를 찾아봅시다
+                </h1>
+                <button class="button is-success is-light" id="btn-register" onclick='openClose()'>등록하기</button>
             </div>
-            <div>
-              <button class="button is-primary is-outlined" onclick='openClose()'>등록하기</button>  
-              <button class="button is-danger is-outlined" onclick='logout()'>로그아웃</button>  
+        </div>
+    </section>
+
+    <div class='card enrollment hide'>
+        <!-- 이름 -->
+        <div class="field">
+            <label class="label">이름</label>
+            <div class="control">
+                <input class="input" type="text" placeholder="이름을 적어주세요" id="input-name">
             </div>
-            
-            <div class='card enrollment hide'>
-                <!-- 이름 -->
-                <div class="field">
-                    <label class="label">이름</label>
-                    <div class="control">
-                      <input class="input" type="text" placeholder="이름을 적어주세요" id="input-name">
-                    </div>
-                </div>
-
-                <!-- 사진 -->
-                <label class="label">사진</label>
-                <div class="file has-name">
-                    <label class="file-label">
-                      <input class="file-input" type="file" name="resume">
-                      <span class="file-cta">
-                        <span class="file-icon">
-                          <i class="fas fa-upload"></i>
-                        </span>
-                        <span class="file-label">
-                          Choose a file…
-                        </span>
-                      </span>
-                      <span class="file-name">
-                      </span>
-                    </label>
-                </div>
-
-                <!-- 생일 -->
-                <div class="field">
-                    <label class="label">생일</label>
-                    <div class="control">
-                      <div class="select">
-                        <select id="input-birthday-m">
-                          <option disabled selected>월</option>
-                          <option>1월</option>
-                          <option>2월</option>
-                          <option>3월</option>
-                          <option>4월</option>
-                          <option>5월</option>
-                          <option>6월</option>
-                          <option>7월</option>
-                          <option>8월</option>
-                          <option>9월</option>
-                          <option>10월</option>
-                          <option>11월</option>
-                          <option>12월</option>
-                        </select>
-                      </div>
-                      <div class="select">
-                        <select id="input-birthday-d">
-                          <option disabled selected>일</option>
-                            <option>1일</option>
-                            <option>2일</option>
-                            <option>3일</option>
-                            <option>4일</option>
-                            <option>5일</option>
-                            <option>6일</option>
-                            <option>7일</option>
-                            <option>8일</option>
-                            <option>9일</option>
-                            <option>10일</option>
-                            <option>11일</option>
-                            <option>12일</option>
-                            <option>13일</option>
-                            <option>14일</option>
-                            <option>15일</option>
-                            <option>16일</option>
-                            <option>17일</option>
-                            <option>18일</option>
-                            <option>19일</option>
-                            <option>20일</option>
-                            <option>21일</option>
-                            <option>22일</option>
-                            <option>23일</option>
-                            <option>24일</option>
-                            <option>25일</option>
-                            <option>26일</option>
-                            <option>27일</option>
-                            <option>28일</option>
-                            <option>29일</option>
-                            <option>30일</option>
-                            <option>31일</option>
-
-                        </select>
-                      </div>
-                      
-                    </div>
-                </div>
-
-                <!-- 혈액형 -->
-                <div class="field">
-                    <label class="label">혈액형</label>
-                    <div class="control">
-                      <div class="select">
-                        <select id="input-blood">
-                          <option disabled selected>혈액형</option>
-                          <option>A형</option>
-                          <option>B형</option>
-                          <option>AB형</option>
-                          <option>O형</option>      
-                        </select>
-                      </div>
-                    </div>
-                </div>
-
-                <!-- 지역 -->
-                <div class="field">
-                    <label class="label">지역</label>
-                    <div class="control">
-                      <div class="select" >
-                        <select id="input-hometown">
-                          <option disabled selected>지역</option>
-                          <option>서울</option>
-                          <option>부산</option>
-                          <option>대구</option>
-                          <option>인천</option>
-                          <option>광주</option>
-                          <option>대전</option>
-                          <option>울산</option>
-                          <option>세종</option>
-                          <option>경기</option>
-                          <option>강원</option>
-                          <option>충북</option>
-                          <option>충남</option>
-                          <option>전북</option>
-                          <option>전남</option>
-                          <option>경북</option>
-                          <option>경남</option>
-                          <option>제주</option>
-                        </select>
-                      </div>
-                      <input class="input" type="text" placeholder="상세 지역을 입력해주세요" id="input-hometown-detail">
-                    </div>
-                    
-                    
-                      
-                </div>
-
-                <!-- MBTI -->
-                <div class="field">
-                    <label class="label">MBTI</label>
-                    <div class="control">
-                      <div class="select">
-                        <select id="input-mbti">
-                          <option disabled selected>나의 MBTI</option>
-                          <option>ISTJ</option>
-                          <option>ISFJ</option>
-                          <option>INFJ</option>
-                          <option>INTJ</option>
-                          <option>ISTP</option>
-                          <option>ISFP</option>
-                          <option>INFP</option>
-                          <option>INTP</option>
-                          <option>ESTP</option>
-                          <option>ESFP</option>
-                          <option>ENFP</option>
-                          <option>ENTP</option>
-                          <option>ESTJ</option>
-                          <option>ESFJ</option>
-                          <option>ENFJ</option>
-                          <option>ENTJ</option>
-                        </select>
-                      </div>
-                    </div>
-                </div>
-
-                <!-- 반려동물 -->
-                <div class="field">
-                    <label class="label">반려동물</label>
-                    <div class="control">
-                      <label class="radio">
-                        <input type="radio" name="question" class="input-pet">
-                        Yes
-                      </label>
-                      <label class="radio">
-                        <input type="radio" name="question" class="input-pet">
-                        No
-                      </label>
-                    </div>
-                    <div class="control">
-                        <input class="input" type="text" placeholder="어떤 동물을 키우시나요?" id="input-pet-detail">
-                      </div>
-                </div>
-
-                <!-- 지금 상태 -->
-                <div class="field">
-                  <label class="label">지금 상태</label>
-                  <div class="control">
-                    <input class="input" type="text" placeholder="현재 기분을 알려주세요" id="input-mood">
-                  </div>
-                </div>
-
-                <!-- 인삿말 -->
-                <div class="field">
-                  <label class="label">인삿말</label>
-                  <div class="control">
-                    <input class="input" type="text" placeholder="인삿말을 남겨주세요" id="input-hello">
-                  </div>
-                </div>
-
-                <!-- 제출/취소 -->
-                <div class="field is-grouped">
-                  <div class="control">
-                    <button class="button is-link" onclick="enroll()">Submit</button>
-                  </div>
-                  <div class="control">
-                    <button class="button is-link is-light" onclick="openClose()">Cancel</button>
-                  </div>
-                </div>
-
-            </div>
-
-            <!-- tag 모음 -->
-            <div class="tags-container">
-              <div class="birthday">
-                <div class="button is-success">생일</div>
-                <button class="button is-success is-outlined" id="tag-1월" onclick="selectFilter('1월')">#1월</button>
-                <button class="button is-success is-outlined" id="tag-2월" onclick="selectFilter('2월')">#2월</button>
-                <button class="button is-success is-outlined" id="tag-3월" onclick="selectFilter('3월')">#3월</button>
-                <button class="button is-success is-outlined" id="tag-4월" onclick="selectFilter('4월')">#4월</button>
-                <button class="button is-success is-outlined" id="tag-5월" onclick="selectFilter('5월')">#5월</button>
-                <button class="button is-success is-outlined" id="tag-6월" onclick="selectFilter('6월')">#6월</button>
-                <button class="button is-success is-outlined" id="tag-7월" onclick="selectFilter('7월')">#7월</button>
-                <button class="button is-success is-outlined" id="tag-8월" onclick="selectFilter('8월')">#8월</button>
-                <button class="button is-success is-outlined" id="tag-9월" onclick="selectFilter('9월')">#9월</button>
-                <button class="button is-success is-outlined" id="tag-10월" onclick="selectFilter('10월')">#10월</button>
-                <button class="button is-success is-outlined" id="tag-11월" onclick="selectFilter('11월')">#11월</button>
-                <button class="button is-success is-outlined" id="tag-12월" onclick="selectFilter('12월')">#12월</button>
-              </div>
-              
-              <div class="blood">
-                <div class="button is-success">혈액형</div>
-                <button class="button is-success is-outlined" id="tag-A형" onclick="selectFilter('A형')">#A형</button>
-                <button class="button is-success is-outlined" id="tag-B형" onclick="selectFilter('B형')">#B형</button>
-                <button class="button is-success is-outlined" id="tag-AB형" onclick="selectFilter('AB형')">#AB형</button>
-                <button class="button is-success is-outlined" id="tag-O형" onclick="selectFilter('O형')">#O형</button>
-              </div>
-              
-              <div class="hometown">
-                <div class="button is-success">지역</div>
-                <button class="button is-success is-outlined" id="tag-서울" onclick="selectFilter('서울')">#서울</button>
-                <button class="button is-success is-outlined" id="tag-부산" onclick="selectFilter('부산')">#부산</button>
-                <button class="button is-success is-outlined" id="tag-대구" onclick="selectFilter('대구')">#대구</button>
-                <button class="button is-success is-outlined" id="tag-인천" onclick="selectFilter('인천')">#인천</button>
-                <button class="button is-success is-outlined" id="tag-광주" onclick="selectFilter('광주')">#광주</button>
-                <button class="button is-success is-outlined" id="tag-대전" onclick="selectFilter('대전')">#대전</button>
-                <button class="button is-success is-outlined" id="tag-울산" onclick="selectFilter('울산')">#울산</button>
-                <button class="button is-success is-outlined" id="tag-세종" onclick="selectFilter('세종')">#세종</button>
-                <button class="button is-success is-outlined" id="tag-경기" onclick="selectFilter('경기')">#경기</button>
-                <button class="button is-success is-outlined" id="tag-강원" onclick="selectFilter('강원')">#강원</button>
-                <button class="button is-success is-outlined" id="tag-충북" onclick="selectFilter('충북')">#충북</button>
-                <button class="button is-success is-outlined" id="tag-충남" onclick="selectFilter('충남')">#충남</button>
-                <button class="button is-success is-outlined" id="tag-전북" onclick="selectFilter('전북')">#전북</button>
-                <button class="button is-success is-outlined" id="tag-전남" onclick="selectFilter('전남')">#전남</button>
-                <button class="button is-success is-outlined" id="tag-경북" onclick="selectFilter('경북')">#경북</button>
-                <button class="button is-success is-outlined" id="tag-경남" onclick="selectFilter('경남')">#경남</button>
-                <button class="button is-success is-outlined" id="tag-제주" onclick="selectFilter('제주')">#제주</button>
-              </div>
-
-              <div class="MBTI">
-                <div class="button is-success">MBTI</div>
-                <button class="button is-success is-outlined" id="tag-ISTJ" onclick="selectFilter('ISTJ')">#ISTJ</button>
-                <button class="button is-success is-outlined" id="tag-ISFJ" onclick="selectFilter('ISFJ')">#ISFJ</button>
-                <button class="button is-success is-outlined" id="tag-INFJ" onclick="selectFilter('INFJ')">#INFJ</button>
-                <button class="button is-success is-outlined" id="tag-INTJ" onclick="selectFilter('INTJ')">#INTJ</button>
-                <button class="button is-success is-outlined" id="tag-ISTP" onclick="selectFilter('ISTP')">#ISTP</button>
-                <button class="button is-success is-outlined" id="tag-ISFP" onclick="selectFilter('ISFP')">#ISFP</button>
-                <button class="button is-success is-outlined" id="tag-INFP" onclick="selectFilter('INFP')">#INFP</button>
-                <button class="button is-success is-outlined" id="tag-INTP" onclick="selectFilter('INTP')">#INTP</button>
-                <button class="button is-success is-outlined" id="tag-ESTP" onclick="selectFilter('ESTP')">#ESTP</button>
-                <button class="button is-success is-outlined" id="tag-ESFP" onclick="selectFilter('ESFP')">#ESFP</button>
-                <button class="button is-success is-outlined" id="tag-ENFP" onclick="selectFilter('ENFP')">#ENFP</button>
-                <button class="button is-success is-outlined" id="tag-ENTP" onclick="selectFilter('ENTP')">#ENTP</button>
-                <button class="button is-success is-outlined" id="tag-ESTJ" onclick="selectFilter('ESTJ')">#ESTJ</button>
-                <button class="button is-success is-outlined" id="tag-ESFJ" onclick="selectFilter('ESFJ')">#ESFJ</button>
-                <button class="button is-success is-outlined" id="tag-ENFJ" onclick="selectFilter('ENFJ')">#ENFJ</button>
-                <button class="button is-success is-outlined" id="tag-ENTJ" onclick="selectFilter('ENTJ')">#ENTJ</button>
-              </div>
-
-              <div class="pet">
-                <div class="button is-success">반려동물</div>
-                <button class="button is-success is-outlined" id="tag-pet" onclick="selectFilter('pet')">#같이삽니다</button> 
-              </div>
-
-              <button class="button is-primary is-outlined" onclick="search()">검색</button>
-              <button class="button is-danger is-outlined" onclick='goHome()'>전체 보기</button>  
-
-          </div>
-        </header>
-        <main>
-          <!-- Jinja2 syntax -->
-          <div class="cards-deck">
-
-            <h3>해당하는 사람은 {{number}}명 입니다</h3>
-            {% for card in cards %}
-            <div class="card">
-                <div class="card-content">
-                  <div class="media">
-                    <div class="media-left">
-                      <figure class="image is-48x48">
-                        <img id="card-picture"src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
-                      </figure>
-                    </div>
-                    <div class="media-content">
-                      <p class="title is-4" id="card-name">{{card.name}}</p>
-                      <p class="subtitle is-6" id="card-birthday">{{card.birthday_m}} {{card.birthday_d}}</p>
-                    </div>
-                  </div>
-                  
-                  <div class="content" id="card-hello">
-                    {{card.hello}}
-                  </div>
-                  <div>
-                    <span class="card-tag">#<span id="card-blood">{{card.blood}}</span></span>
-                    <span class="card-tag">#<span id="card-hometown">{{card.hometown}} {{card.hometown_detail}}</span></span>
-                    <span class="card-tag">#<span id="card-mbti">{{card.mbti}}</span></span>
-                    <span class="card-tag">#<span id="card-pet">{{card.pet_detail}}</span></span>
-                    <span class="card-tag">#<span id="card-mood">{{card.mood}}</span></span>
-                  </div>
-                </div>
-            </div>
-            {% endfor %}
-        
         </div>
 
-          <!-- 더미 코드 -->
-            <!-- <div class="cards-deck">  
-                <div class="card">
-                    <div class="card-content">
-                      <div class="media">
+        <!-- 사진 -->
+        <label class="label">사진</label>
+        <div class="file has-name">
+            <label class="file-label">
+                <input type="file" name="userImg" id="userImageFileOpenInput" accept="image/png, image/jpeg">
+            </label>
+        </div>
+
+        <!-- 생일 -->
+        <div class="field">
+            <label class="label">생일</label>
+            <div class="control">
+                <div class="select">
+                    <select id="input-birthday-m">
+                        <option disabled selected>월</option>
+                        <option>1월</option>
+                        <option>2월</option>
+                        <option>3월</option>
+                        <option>4월</option>
+                        <option>5월</option>
+                        <option>6월</option>
+                        <option>7월</option>
+                        <option>8월</option>
+                        <option>9월</option>
+                        <option>10월</option>
+                        <option>11월</option>
+                        <option>12월</option>
+                    </select>
+                </div>
+                <div class="select">
+                    <select id="input-birthday-d">
+                        <option disabled selected>일</option>
+                        <option>1일</option>
+                        <option>2일</option>
+                        <option>3일</option>
+                        <option>4일</option>
+                        <option>5일</option>
+                        <option>6일</option>
+                        <option>7일</option>
+                        <option>8일</option>
+                        <option>9일</option>
+                        <option>10일</option>
+                        <option>11일</option>
+                        <option>12일</option>
+                        <option>13일</option>
+                        <option>14일</option>
+                        <option>15일</option>
+                        <option>16일</option>
+                        <option>17일</option>
+                        <option>18일</option>
+                        <option>19일</option>
+                        <option>20일</option>
+                        <option>21일</option>
+                        <option>22일</option>
+                        <option>23일</option>
+                        <option>24일</option>
+                        <option>25일</option>
+                        <option>26일</option>
+                        <option>27일</option>
+                        <option>28일</option>
+                        <option>29일</option>
+                        <option>30일</option>
+                        <option>31일</option>
+
+                    </select>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- 혈액형 -->
+        <div class="field">
+            <label class="label">혈액형</label>
+            <div class="control">
+                <div class="select">
+                    <select id="input-blood">
+                        <option disabled selected>혈액형</option>
+                        <option>A형</option>
+                        <option>B형</option>
+                        <option>AB형</option>
+                        <option>O형</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- 지역 -->
+        <div class="field">
+            <label class="label">지역</label>
+            <div class="control">
+                <div class="select">
+                    <select id="input-hometown">
+                        <option disabled selected>지역</option>
+                        <option>서울</option>
+                        <option>부산</option>
+                        <option>대구</option>
+                        <option>인천</option>
+                        <option>광주</option>
+                        <option>대전</option>
+                        <option>울산</option>
+                        <option>세종</option>
+                        <option>경기</option>
+                        <option>강원</option>
+                        <option>충북</option>
+                        <option>충남</option>
+                        <option>전북</option>
+                        <option>전남</option>
+                        <option>경북</option>
+                        <option>경남</option>
+                        <option>제주</option>
+                    </select>
+                </div>
+                <input class="input" type="text" placeholder="상세 지역을 입력해주세요" id="input-hometown-detail">
+            </div>
+
+
+        </div>
+
+        <!-- MBTI -->
+        <div class="field">
+            <label class="label">MBTI</label>
+            <div class="control">
+                <div class="select">
+                    <select id="input-mbti">
+                        <option disabled selected>나의 MBTI</option>
+                        <option>모름</option>
+                        <option>ISTJ</option>
+                        <option>ISFJ</option>
+                        <option>INFJ</option>
+                        <option>INTJ</option>
+                        <option>ISTP</option>
+                        <option>ISFP</option>
+                        <option>INFP</option>
+                        <option>INTP</option>
+                        <option>ESTP</option>
+                        <option>ESFP</option>
+                        <option>ENFP</option>
+                        <option>ENTP</option>
+                        <option>ESTJ</option>
+                        <option>ESFJ</option>
+                        <option>ENFJ</option>
+                        <option>ENTJ</option>
+                    </select>
+                </div>
+                <a href="https://www.16personalities.com/ko/%EB%AC%B4%EB%A3%8C-%EC%84%B1%EA%B2%A9-%EC%9C%A0%ED%98%95-%EA%B2%80%EC%82%AC" target="_blank"><p class="mbti_link">나의 MBTI 아직 모른다면?</p></a>
+            </div>
+        </div>
+
+        <!-- 반려동물 -->
+        <div class="field">
+            <label class="label">반려동물</label>
+            <div class="control">
+               <label class="radio">
+                    <input type="radio" name="question" class="input-pet">
+                    있어요
+                </label>
+                <label class="radio">
+                    <input type="radio" name="question" class="input-pet">
+                    없어요
+                </label>
+            </div>
+            <div class="control">
+                <input class="input" type="text" placeholder="어떤 동물인지 알려주세요" id="input-pet-detail">
+            </div>
+        </div>
+
+        <!-- 지금 상태 -->
+        <div class="field">
+            <label class="label">지금 상태</label>
+            <div class="control">
+                <input class="input" type="text" placeholder="현재 기분을 알려주세요" id="input-mood">
+            </div>
+        </div>
+
+        <!-- 인삿말 -->
+        <div class="field">
+            <label class="label">인삿말</label>
+            <div class="control">
+                <input class="input hello" type="text" placeholder="인삿말을 남겨주세요" id="input-hello">
+            </div>
+        </div>
+
+        <!-- 제출/취소 -->
+        <div class="field is-grouped btn-enrolls">
+            <div class="control">
+                <button class="button is-info is-light" onclick="enroll()">등록</button>
+            </div>
+            <div class="control">
+                <button class="button is-danger is-light" onclick="openClose()">취소</button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- tag 모음 -->
+    <div class="tags-total">
+        <h1><b>찾고 싶은 공통점을 선택해보세요</b>
+        </h1>
+    <div class="tags-container">
+        <div class="birthday">
+            <div class="button is-success category">생일</div>
+
+            <button class="button is-success is-outlined" id="tag-1월" onclick="selectFilter('1월')">#1월</button>
+            <button class="button is-success is-outlined" id="tag-2월" onclick="selectFilter('2월')">#2월</button>
+            <button class="button is-success is-outlined" id="tag-3월" onclick="selectFilter('3월')">#3월</button>
+            <button class="button is-success is-outlined" id="tag-4월" onclick="selectFilter('4월')">#4월</button>
+            <button class="button is-success is-outlined" id="tag-5월" onclick="selectFilter('5월')">#5월</button>
+            <button class="button is-success is-outlined" id="tag-6월" onclick="selectFilter('6월')">#6월</button>
+            <button class="button is-success is-outlined" id="tag-7월" onclick="selectFilter('7월')">#7월</button>
+            <button class="button is-success is-outlined" id="tag-8월" onclick="selectFilter('8월')">#8월</button>
+            <button class="button is-success is-outlined" id="tag-9월" onclick="selectFilter('9월')">#9월</button>
+            <button class="button is-success is-outlined" id="tag-10월" onclick="selectFilter('10월')">#10월</button>
+            <button class="button is-success is-outlined" id="tag-11월" onclick="selectFilter('11월')">#11월</button>
+            <button class="button is-success is-outlined" id="tag-12월" onclick="selectFilter('12월')">#12월</button>
+        </div>
+
+
+        <div class="blood">
+            <div class="button is-success category">혈액형</div>
+
+            <button class="button is-success is-outlined" id="tag-A형" onclick="selectFilter('A형')">#A형</button>
+            <button class="button is-success is-outlined" id="tag-B형" onclick="selectFilter('B형')">#B형</button>
+            <button class="button is-success is-outlined" id="tag-AB형" onclick="selectFilter('AB형')">#AB형</button>
+            <button class="button is-success is-outlined" id="tag-O형" onclick="selectFilter('O형')">#O형</button>
+        </div>
+
+
+        <div class="hometown">
+            <div class="button is-success category">지역</div>
+            <button class="button is-success is-outlined" id="tag-서울" onclick="selectFilter('서울')">#서울</button>
+            <button class="button is-success is-outlined" id="tag-부산" onclick="selectFilter('부산')">#부산</button>
+            <button class="button is-success is-outlined" id="tag-대구" onclick="selectFilter('대구')">#대구</button>
+            <button class="button is-success is-outlined" id="tag-인천" onclick="selectFilter('인천')">#인천</button>
+            <button class="button is-success is-outlined" id="tag-광주" onclick="selectFilter('광주')">#광주</button>
+            <button class="button is-success is-outlined" id="tag-대전" onclick="selectFilter('대전')">#대전</button>
+            <button class="button is-success is-outlined" id="tag-울산" onclick="selectFilter('울산')">#울산</button>
+            <button class="button is-success is-outlined" id="tag-세종" onclick="selectFilter('세종')">#세종</button>
+            <button class="button is-success is-outlined" id="tag-경기" onclick="selectFilter('경기')">#경기</button>
+            <button class="button is-success is-outlined" id="tag-강원" onclick="selectFilter('강원')">#강원</button>
+            <button class="button is-success is-outlined" id="tag-충북" onclick="selectFilter('충북')">#충북</button>
+            <button class="button is-success is-outlined" id="tag-충남" onclick="selectFilter('충남')">#충남</button>
+            <button class="button is-success is-outlined" id="tag-전북" onclick="selectFilter('전북')">#전북</button>
+            <button class="button is-success is-outlined" id="tag-전남" onclick="selectFilter('전남')">#전남</button>
+            <button class="button is-success is-outlined" id="tag-경북" onclick="selectFilter('경북')">#경북</button>
+            <button class="button is-success is-outlined" id="tag-경남" onclick="selectFilter('경남')">#경남</button>
+            <button class="button is-success is-outlined" id="tag-제주" onclick="selectFilter('제주')">#제주</button>
+        </div>
+
+        <div class="MBTI">
+            <div class="button is-success category">MBTI</div>
+            <button class="button is-success is-outlined" id="tag-ISTJ" onclick="selectFilter('ISTJ')">#ISTJ</button>
+            <button class="button is-success is-outlined" id="tag-ISFJ" onclick="selectFilter('ISFJ')">#ISFJ</button>
+            <button class="button is-success is-outlined" id="tag-INFJ" onclick="selectFilter('INFJ')">#INFJ</button>
+            <button class="button is-success is-outlined" id="tag-INTJ" onclick="selectFilter('INTJ')">#INTJ</button>
+            <button class="button is-success is-outlined" id="tag-ISTP" onclick="selectFilter('ISTP')">#ISTP</button>
+            <button class="button is-success is-outlined" id="tag-ISFP" onclick="selectFilter('ISFP')">#ISFP</button>
+            <button class="button is-success is-outlined" id="tag-INFP" onclick="selectFilter('INFP')">#INFP</button>
+            <button class="button is-success is-outlined" id="tag-INTP" onclick="selectFilter('INTP')">#INTP</button>
+            <button class="button is-success is-outlined" id="tag-ESTP" onclick="selectFilter('ESTP')">#ESTP</button>
+            <button class="button is-success is-outlined" id="tag-ESFP" onclick="selectFilter('ESFP')">#ESFP</button>
+            <button class="button is-success is-outlined" id="tag-ENFP" onclick="selectFilter('ENFP')">#ENFP</button>
+            <button class="button is-success is-outlined" id="tag-ENTP" onclick="selectFilter('ENTP')">#ENTP</button>
+            <button class="button is-success is-outlined" id="tag-ESTJ" onclick="selectFilter('ESTJ')">#ESTJ</button>
+            <button class="button is-success is-outlined" id="tag-ESFJ" onclick="selectFilter('ESFJ')">#ESFJ</button>
+            <button class="button is-success is-outlined" id="tag-ENFJ" onclick="selectFilter('ENFJ')">#ENFJ</button>
+            <button class="button is-success is-outlined" id="tag-ENTJ" onclick="selectFilter('ENTJ')">#ENTJ</button>
+        </div>
+
+        <div class="pet">
+            <div class="button is-success category">반려동물</div>
+            <button class="button is-success is-outlined" id="tag-pet" onclick="selectFilter('pet')">#같이삽니다</button>
+        </div>
+    </div>
+    <div class="btn-tags">
+        <button class="button" onclick="search()">검색</button>
+        <button class="button" onclick='goHome()'>전체 보기</button>
+    </div>
+    </div>
+</header>
+<main>
+    <!-- Jinja2 syntax -->
+    <div class="cards-deck">
+
+        <h2> {{comment}} <strong>{{ number }}명</strong> 입니다</h2>
+        {% for card in cards %}
+            <div class="card">
+                <div class="card-content">
+                    <div class="media">
                         <div class="media-left">
-                          <figure class="image is-48x48">
-                            <img id="card-picture"src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
-                          </figure>
+                            <figure class="image is-48x48">
+                                <img id="card-picture" src="https://bulma.io/images/placeholders/96x96.png"
+                                     alt="Placeholder image">
+                            </figure>
                         </div>
                         <div class="media-content">
-                          <p class="title is-4" id="card-name">이승민</p>
-                          <p class="subtitle is-6" id="card-birthday">7월 11일</p>
+                            <p class="title is-4" id="card-name">{{ card.name }}</p>
+                            <p class="is-6" id="card-birthday">{{ card.birthday_m }} {{ card.birthday_d }}</p>
                         </div>
-                      </div>
-                      
-                      <div class="content" id="card-hello">
-                        안녕하세요 이승민입니다. 잘 부탁 드립니다!
-                      </div>
-                      <div>
-                        <span class="card-tag">#<span id="card-blood">B형</span></span>
-                        <span class="card-tag">#<span id="card-hometown">경기 고양</span></span>
-                        <span class="card-tag">#<span id="card-mbti">ENTP</span></span>
-                        <span class="card-tag">#<span id="card-pet">고양이</span></span>
-                        <span class="card-tag">#<span id="card-mood">행복</span></span>
-                      </div>
+                    </div>
+
+                    <div class="content" id="card-hello">
+                        {{ card.hello }}
+                    </div>
+                    <div class="card-tags">
+                        <span class="card-tag">#<span id="card-blood">{{ card.blood }}</span></span>
+                        <span class="card-tag">#<span
+                                id="card-hometown">{{ card.hometown }} {{ card.hometown_detail }}</span></span>
+                        <span class="card-tag">#<span id="card-mbti">{{ card.mbti }}</span></span>
+                        {% if card.pet_detail %}
+                        <span class="card-tag">#<span id="card-pet">{{ card.pet_detail }}</span></span>
+                        {% endif %}
+                        <span class="card-tag">#<span id="card-mood">{{ card.mood }}</span></span>
                     </div>
                 </div>
-            
-            </div> -->
-        </main>
+            </div>
+        {% endfor %}
 
-    </body>
+    </div>
+
+    
+</main>
+
+</body>
 </html>
